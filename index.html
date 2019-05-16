@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React 101 (ES6 classes)! - Modern JS</title>
+    <script data-require="fetch@1.1.0" data-semver="1.1.0" src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.1.0/fetch.min.js"></script>
+    <script data-require="browser.js@*" data-semver="0.0.1" src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script data-require="react@15.4.1" data-semver="15.4.1" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"></script>
+    <script data-require="react@15.4.1" data-semver="15.4.1" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"></script>
+    </head>
+
+    <body>
+      <style>
+
+      html, body { margin:0px;}
+      .drawer { background-color:red; width:50vw;will-change:transform;transform: translateX(-50vw);transition:transform 0.2s ease-in-out;}
+      .drawer.shown { background-color:red; width:50vw;transform: translateX(0vw);}
+      .main { display:flex; height:100vh;}
+      .toolbar { background-color:navy;color:white;padding:20px;width:100%;height:10vh;font-size:6vh;}
+      </style>
+        <div id="container"></div>
+        <script type="text/babel">
+
+
+
+          let Main = (props) => <div className="content">{props.children}
+                <button onClick={props.toggle}>click me</button>
+            </div>
+
+          let Drawer = (props) => <div className={"drawer " + (props.shown ? "shown":" ")}>{props.title} {props.children}</div>
+          
+          class DrawerPanel extends React.Component {
+            constructor(){
+              super();
+              this.state = {shown:false};
+            }
+            _toggleDrawer(){  this.setState({shown:true}); }
+
+            render() { return  (
+              <div className="main">
+                  <Drawer title="drawer" shown={this.state.shown}>{this.props.children[0]}</Drawer>
+                  <Main toggle={this._toggleDrawer.bind(this)}>{  this.props.children[1] }</Main>
+              </div>);
+            }
+          }
+          
+          class App extends React.Component {
+            render(){
+              return (
+                <DrawerPanel title="test">
+                  <div>drawercontent</div>
+                  <div>maincontent</div>
+                </DrawerPanel>
+              );
+            }
+          }
+  
+        
+      ReactDOM.render(<App/>, document.getElementById('container'));
+
+       </script>
+    </body>
+</html>
